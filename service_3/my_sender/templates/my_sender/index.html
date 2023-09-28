@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>Message</title>
+</head>
+<body>
+  <textarea id="chat-log" cols="100" rows="20">
+{% for i in messages %}
+{{ i }}
+{% endfor %}
+  </textarea>
+  {{ room_name|json_script:"room-name" }}
+  <script>
+    const roomName = JSON.parse(document.getElementById('room-name').textContent);
+    // Создаем объект WebSocket. При его создании
+    // автоматически происходит попытка открыть соединение с сервером.
+    const SMSws = new WebSocket(
+      'ws://' + window.location.host + '/ws/chat/' + roomName + '/'
+    )
+
+    /**
+     * Добавляет шутку в начало содержимого элемента с идентификатором #jokes.
+     * @param {string} joke - Текст шутки.
+     */
+    const addSMS = (text) => {
+      document.querySelector('#chat-log').value += (text)
+    }
+
+    // Событие срабатывает при получении сообщения от сервера.
+    SMSws.onmessage = (event_) => {
+      const sms = event_.data
+      addSMS(sms + '\n')
+    }
+
+    // Событие срабатывает при закрытии соединения.
+    SMSws.onclose = (event_) => {
+      console.error('SMS socket closed')
+    }
+  </script>
+</body>
+</html>
