@@ -12,7 +12,7 @@ def index(request, room_name):
     if token is None:
         return Response('Access closed', status=status.HTTP_401_UNAUTHORIZED)
 
-    response2 = requests.post('http://127.0.0.1:8000/verify', json={'token': token})
+    response2 = requests.post('http://service1:8000/verify', json={'token': token})
 
     if response2.status_code == 401:
         return Response('Access closed', status=status.HTTP_401_UNAUTHORIZED)
@@ -20,14 +20,14 @@ def index(request, room_name):
     if room_name != response2.json()['username']:
         return Response('Access closed', status=status.HTTP_401_UNAUTHORIZED)
     else:
-        response1 = requests.get('http://127.0.0.1:8090/room/')
+        response1 = requests.get('http://service2:8090/room/')
 
         try:
             room = [k for k in response1.json() if k['receiver'] == room_name][0]['id']
         except IndexError:
             room = 0
 
-        response2 = requests.get('http://127.0.0.1:8090/sms_list/')
+        response2 = requests.get('http://service2:8090/sms_list/')
 
         list_messages = []
         try:
