@@ -24,10 +24,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
 DEBUG = int(os.environ.get('DEBUG', default=0))
 
-# ALLOWED_HOSTS = []
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0', 'service3']
 
 # Application definition
@@ -79,17 +77,6 @@ WSGI_APPLICATION = 'service_3.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'postgresql',
-#         'USER': 'albert',
-#         'PASSWORD': '037700',
-#         'HOST': 'localhost',
-#         'PORT': '5434',
-#     }
-# }
 
 DATABASES = {
     'default': {
@@ -159,10 +146,8 @@ CHANNEL_LAYERS = {
 REDIS_HOST = 'redis'
 REDIS_PORT = '6379'
 
-# CELERY_BROKER_URL = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
 CELERY_BROKER_URL = os.environ.get('BROKER_URL', 'redis://redis:6379/0')
 CELERY_BROKER_TRANSPORT_OPTION = {'visibility_timeout': 3600}
-# CELERY_RESULT_BACKEND = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
 CELERY_RESULT_BACKEND = os.environ.get('RESULT_BACKEND', 'redis://redis:6379/0')
 CELERY_ACCEPT_CONTENT = ['json', 'pickle']
 CELERY_TASK_SERIALIZER = 'json'
