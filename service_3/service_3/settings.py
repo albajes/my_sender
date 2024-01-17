@@ -44,6 +44,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'my_sender.middleware.AuthMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -72,8 +73,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'service_3.wsgi.application'
-
-
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
@@ -160,3 +159,13 @@ CELERY_TASK_QUEUES = {
         'binding_key': 'data_queue',
     }
 }
+
+service1 = os.environ.get('SERVICE_1_NAME')
+service2 = os.environ.get('SERVICE_2_NAME')
+port1 = os.environ.get('PORT_1')
+port2 = os.environ.get('PORT_2')
+
+class services:
+    service_1_verify = f'http://{service1}:{port1}/verify'
+    service_2_room = f'http://{service2}:{port2}/room/'
+    service_2_sms_list = f'http://{service2}:{port2}/sms_list/'

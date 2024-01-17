@@ -1,7 +1,7 @@
 from django.urls import path
-from . import views
+from .views import PageView
 
 urlpatterns = [
-    path('<str:room_name>', views.index, name='index')
+    path('<str:room_name>', PageView.as_view(), name='index')
 ]
 
